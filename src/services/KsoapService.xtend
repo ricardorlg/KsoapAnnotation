@@ -28,6 +28,7 @@ annotation KsoapService {
 	Class<?>[] inputsParametersTypes
 	Class<?> typeReturn
 	boolean implicitReturn=true
+	boolean implicitTypes=false
 }
 
 class KsoapServiceCompilationParticipant extends AbstractClassProcessor {
@@ -51,6 +52,7 @@ class KsoapServiceCompilationParticipant extends AbstractClassProcessor {
 			exceptions = #[Exception.newTypeReference()]
 			val clases = getArrayClassValue(clazz, context, "inputsParametersTypes")
 			val nombres = getArrayStringValue(clazz, context, "inputsParametersNames")
+			val impliciTypes=getBooleanValue(clazz,context,'implicitTypes')
 			if (clases.size != nombres.size) {
 				clazz.annotations.head.addError(
 					"Error parametros no iguales nombres y tipos deben tener la misma dimension")
@@ -73,7 +75,7 @@ class KsoapServiceCompilationParticipant extends AbstractClassProcessor {
 					«ENDFOR»
 					«toJavaCode(SoapSerializationEnvelope.newTypeReference())» envelope = new SoapSerializationEnvelope(«toJavaCode(
 						SoapEnvelope.newTypeReference())».VER11);
-
+					envelope.implicitTypes=«impliciTypes»;
 					envelope.setOutputSoapObject(request);
 					new «toJavaCode(MarshalDate.newTypeReference())»().register(envelope);
 					new «toJavaCode(MarshalBase64.newTypeReference())»().register(envelope);
