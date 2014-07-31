@@ -12,4 +12,5 @@ public @interface KsoapService {
   public Class<?>[] inputsParametersTypes();
   public Class<?> typeReturn();
   public boolean implicitReturn() default true;
+  public boolean implicitTypes() default false;
 }

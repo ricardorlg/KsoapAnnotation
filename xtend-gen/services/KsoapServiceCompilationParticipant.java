@@ -65,6 +65,7 @@ public class KsoapServiceCompilationParticipant extends AbstractClassProcessor {
         it.setExceptions(new TypeReference[] { _newTypeReference_1 });
         final TypeReference[] clases = KsoapServiceCompilationParticipant.this.getArrayClassValue(clazz, context, "inputsParametersTypes");
         final String[] nombres = KsoapServiceCompilationParticipant.this.getArrayStringValue(clazz, context, "inputsParametersNames");
+        final Boolean impliciTypes = KsoapServiceCompilationParticipant.this.getBooleanValue(clazz, context, "implicitTypes");
         int _size = ((List<TypeReference>)Conversions.doWrapArray(clases)).size();
         int _size_1 = ((List<String>)Conversions.doWrapArray(nombres)).size();
         boolean _notEquals = (_size != _size_1);
@@ -139,18 +140,30 @@ public class KsoapServiceCompilationParticipant extends AbstractClassProcessor {
             _builder.append(_javaCode_3, "");
             _builder.append(".VER11);");
             _builder.newLineIfNotEmpty();
-            _builder.newLine();
+            _builder.append("envelope.implicitTypes=");
+            _builder.append(impliciTypes, "");
+            _builder.append(";");
+            _builder.newLineIfNotEmpty();
             _builder.append("envelope.setOutputSoapObject(request);");
             _builder.newLine();
+            {
+              TypeReference _newTypeReference_4 = context.newTypeReference(SoapSerializationEnvelope.class);
+              MutableMethodDeclaration _findDeclaredMethod = clazz.findDeclaredMethod("addMappings", _newTypeReference_4);
+              boolean _notEquals = (!Objects.equal(_findDeclaredMethod, null));
+              if (_notEquals) {
+                _builder.append("addMappings(envelope);");
+                _builder.newLine();
+              }
+            }
             _builder.append("new ");
-            TypeReference _newTypeReference_4 = context.newTypeReference(MarshalDate.class);
-            String _javaCode_4 = it.toJavaCode(_newTypeReference_4);
+            TypeReference _newTypeReference_5 = context.newTypeReference(MarshalDate.class);
+            String _javaCode_4 = it.toJavaCode(_newTypeReference_5);
             _builder.append(_javaCode_4, "");
             _builder.append("().register(envelope);");
             _builder.newLineIfNotEmpty();
             _builder.append("new ");
-            TypeReference _newTypeReference_5 = context.newTypeReference(MarshalBase64.class);
-            String _javaCode_5 = it.toJavaCode(_newTypeReference_5);
+            TypeReference _newTypeReference_6 = context.newTypeReference(MarshalBase64.class);
+            String _javaCode_5 = it.toJavaCode(_newTypeReference_6);
             _builder.append(_javaCode_5, "");
             _builder.append("().register(envelope);");
             _builder.newLineIfNotEmpty();
@@ -159,8 +172,8 @@ public class KsoapServiceCompilationParticipant extends AbstractClassProcessor {
             _builder.append("\t");
             _builder.newLine();
             _builder.append("\t");
-            TypeReference _newTypeReference_6 = context.newTypeReference(HttpTransportSE.class);
-            String _javaCode_6 = it.toJavaCode(_newTypeReference_6);
+            TypeReference _newTypeReference_7 = context.newTypeReference(HttpTransportSE.class);
+            String _javaCode_6 = it.toJavaCode(_newTypeReference_7);
             _builder.append(_javaCode_6, "\t");
             _builder.append(" transp = new HttpTransportSE(URL, 6000);");
             _builder.newLineIfNotEmpty();
@@ -168,8 +181,8 @@ public class KsoapServiceCompilationParticipant extends AbstractClassProcessor {
             _builder.append("transp.debug = true;");
             _builder.newLine();
             _builder.append("\t");
-            TypeReference _newTypeReference_7 = context.newTypeReference(System.class);
-            String _javaCode_7 = it.toJavaCode(_newTypeReference_7);
+            TypeReference _newTypeReference_8 = context.newTypeReference(System.class);
+            String _javaCode_7 = it.toJavaCode(_newTypeReference_8);
             _builder.append(_javaCode_7, "\t");
             _builder.append(".setProperty(\"http.keepAlive\", \"false\");");
             _builder.newLineIfNotEmpty();
@@ -190,8 +203,8 @@ public class KsoapServiceCompilationParticipant extends AbstractClassProcessor {
             _builder.newLine();
             _builder.append("\t");
             _builder.append("if (result instanceof ");
-            TypeReference _newTypeReference_8 = context.newTypeReference(SoapFault.class);
-            String _javaCode_8 = it.toJavaCode(_newTypeReference_8);
+            TypeReference _newTypeReference_9 = context.newTypeReference(SoapFault.class);
+            String _javaCode_8 = it.toJavaCode(_newTypeReference_9);
             _builder.append(_javaCode_8, "\t");
             _builder.append(") {");
             _builder.newLineIfNotEmpty();
@@ -211,8 +224,8 @@ public class KsoapServiceCompilationParticipant extends AbstractClassProcessor {
             _builder.append("return _retObject;");
             _builder.newLine();
             _builder.append("} catch (");
-            TypeReference _newTypeReference_9 = context.newTypeReference(HttpResponseException.class);
-            String _javaCode_9 = it.toJavaCode(_newTypeReference_9);
+            TypeReference _newTypeReference_10 = context.newTypeReference(HttpResponseException.class);
+            String _javaCode_9 = it.toJavaCode(_newTypeReference_10);
             _builder.append(_javaCode_9, "");
             _builder.append(" ex2) {");
             _builder.newLineIfNotEmpty();
@@ -237,8 +250,8 @@ public class KsoapServiceCompilationParticipant extends AbstractClassProcessor {
             _builder.newLine();
             _builder.append("\t");
             _builder.append("} catch (");
-            TypeReference _newTypeReference_10 = context.newTypeReference(IOException.class);
-            String _javaCode_10 = it.toJavaCode(_newTypeReference_10);
+            TypeReference _newTypeReference_11 = context.newTypeReference(IOException.class);
+            String _javaCode_10 = it.toJavaCode(_newTypeReference_11);
             _builder.append(_javaCode_10, "\t");
             _builder.append(" ex) {");
             _builder.newLineIfNotEmpty();
