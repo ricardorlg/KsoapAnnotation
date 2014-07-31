@@ -77,6 +77,9 @@ class KsoapServiceCompilationParticipant extends AbstractClassProcessor {
 						SoapEnvelope.newTypeReference())».VER11);
 					envelope.implicitTypes=«impliciTypes»;
 					envelope.setOutputSoapObject(request);
+					«IF clazz.findDeclaredMethod('addMappings',SoapSerializationEnvelope.newTypeReference())!=null»
+					addMappings(envelope);
+					«ENDIF»
 					new «toJavaCode(MarshalDate.newTypeReference())»().register(envelope);
 					new «toJavaCode(MarshalBase64.newTypeReference())»().register(envelope);
 					try {
