@@ -31,8 +31,8 @@ class ksoapSerializableCompilationParticipant extends AbstractClassProcessor {
 		val interfaceUsed = KvmSerializable.newTypeReference
 		val serializable = Serializable.newTypeReference()
 		clazz.implementedInterfaces = clazz.implementedInterfaces + #[interfaceUsed, serializable]
-
-	addConstructor(clazz,context)
+if( clazz.findDeclaredConstructor(SoapObject.newTypeReference())==null){
+	addConstructor(clazz,context)}
 
 		val s = interfaceUsed.type as InterfaceDeclaration
 		
